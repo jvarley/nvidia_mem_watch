@@ -1,0 +1,1 @@
+Simple GUI to display current gpu memory use.  Calls nvidia-smi, parses out memory use and plots it.  
