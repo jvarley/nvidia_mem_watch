@@ -44,7 +44,6 @@ class NVIDIA_MEM_GUI():
         self.root.quit()
         self.root.destroy()
 
-
     def update(self):
         self.draw()
 
@@ -60,7 +59,7 @@ class NVIDIA_MEM_GUI():
         self.current_gpu_mem = int(r[MiB_index-5:MiB_index].split()[0])
 
         self.mem_data.pop(0)
-        self.mem_data.append( 100.0 * self.current_gpu_mem / self.max_gpu_mem)
+        self.mem_data.append(100.0 * self.current_gpu_mem / self.max_gpu_mem)
 
         self.show_plot()
         self.root.after(1000, self.update)
@@ -71,7 +70,7 @@ class NVIDIA_MEM_GUI():
 
         self.subplot.set_ylabel("Percent in use.")
         self.subplot.set_xlabel("Seconds Past")
-        plt.title("GPU Memory in use of : " + str(self.current_gpu_mem) + "/" + str(self.max_gpu_mem) + "MiB; " + "{0:.2f}".format(self.mem_data[-1]) + "%")
+        plt.title("GPU Memory in use: " + str(self.current_gpu_mem) + " / " + str(self.max_gpu_mem) + "MiB; " + "{0:.2f}".format(self.mem_data[-1]) + "%")
 
         plt.plot(self.mem_range, self.mem_data)
 
