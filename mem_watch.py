@@ -15,7 +15,9 @@ else:
 
 class NVIDIA_MEM_GUI():
 
-    def __init__(self):
+    def __init__(self, history_length=100):
+
+        self.history_length = history_length
 
         self.root = Tk.Tk()
         self.root.wm_title("GPU MEMORY DISPLAY")
@@ -30,8 +32,8 @@ class NVIDIA_MEM_GUI():
 
         self.max_gpu_mem = None
         self.current_gpu_mem = None
-        self.mem_data = [0] * 100
-        self.mem_range = list(reversed(range(100)))
+        self.mem_data = [0] * self.history_length
+        self.mem_range = list(reversed(range(self.history_length)))
 
         self.canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 
@@ -70,6 +72,10 @@ class NVIDIA_MEM_GUI():
 
         self.subplot.set_ylabel("Percent in use.")
         self.subplot.set_xlabel("Seconds Past")
+
+        plt.xlim((0, self.history_length))
+        plt.ylim((0, 100))
+
         plt.title("GPU Memory in use: " + str(self.current_gpu_mem) + " / " + str(self.max_gpu_mem) + "MiB; " + "{0:.2f}".format(self.mem_data[-1]) + "%")
 
         plt.plot(self.mem_range, self.mem_data)
