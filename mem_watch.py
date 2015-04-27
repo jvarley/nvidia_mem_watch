@@ -73,7 +73,7 @@ class NVIDIA_MEM_GUI():
         self.subplot.set_ylabel("Percent in use.")
         self.subplot.set_xlabel("Seconds Past")
 
-        plt.xlim((0, self.history_length))
+        plt.xlim((self.history_length, 0))
         plt.ylim((0, 100))
 
         plt.title("GPU Memory in use: " + str(self.current_gpu_mem) + " / " + str(self.max_gpu_mem) + "MiB; " + "{0:.2f}".format(self.mem_data[-1]) + "%")
