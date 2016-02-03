@@ -2,6 +2,7 @@
 import matplotlib
 import sys
 from subprocess import check_output
+import re
 
 matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -51,14 +52,10 @@ class NVIDIA_MEM_GUI():
 
         r = check_output(["nvidia-smi"])
 
-        #get max gpu mem
-        if self.max_gpu_mem is None:
-            max_gpu_mem_index = r.rfind("MiB")
-            self.max_gpu_mem = int(r[max_gpu_mem_index-6:max_gpu_mem_index].split()[0])
-
-        #get current gpu_mem in use
-        MiB_index = r.find("MiB")
-        self.current_gpu_mem = int(r[MiB_index-5:MiB_index].split()[0])
+        mem_string = re.findall("\d+MiB / \d+MiB",r)
+        sizes = map(float, re.findall("\d+", mem_string[0]))
+        self.max_gpu_mem = sizes[1]
+        self.current_gpu_mem = sizes[0]
 
         self.mem_data.pop(0)
         self.mem_data.append(100.0 * self.current_gpu_mem / self.max_gpu_mem)
